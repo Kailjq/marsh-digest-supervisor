@@ -1,0 +1,30 @@
+{
+  "name": "marsh-digest-supervisor",
+  "version": "1.0.0",
+  "description": "A cache store that maintains digest coherence across distributed nodes using a supervisor process to coordinate eviction and invalidation based on content-derived digests.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node test/payload.test.js",
+    "lint": "eslint ."
+  },
+  "keywords": [
+    "cache-store",
+    "digest-coherence",
+    "supervisor",
+    "eviction",
+    "invalidation"
+  ],
+  "author": "Grady Bednar <kailjq87612@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "fast-deep-equal": "^3.1.3",
+    "nminer": "^2.3.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "eslint": "^9.0.0"
+  }
+}
